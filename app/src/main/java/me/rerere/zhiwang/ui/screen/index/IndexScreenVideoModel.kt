@@ -11,10 +11,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import me.rerere.zhiwang.AppContext
 import me.rerere.zhiwang.api.zhiwang.Request
 import me.rerere.zhiwang.api.zhiwang.Response
 import me.rerere.zhiwang.api.zuowen.ZuowenPageSource
 import me.rerere.zhiwang.repo.ZuowenRepo
+import me.rerere.zhiwang.util.checkUpdate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,6 +40,16 @@ class IndexScreenVideoModel @Inject constructor(
     ) {
         ZuowenPageSource(zhiwangRepo)
     }.flow.cachedIn(viewModelScope)
+
+    // 找到更新
+    var foundUpdate by mutableStateOf(false)
+
+    init {
+        // 检查更新
+        viewModelScope.launch {
+            foundUpdate = checkUpdate(AppContext.appContext)
+        }
+    }
 
     fun query() {
         lastQuery = System.currentTimeMillis()

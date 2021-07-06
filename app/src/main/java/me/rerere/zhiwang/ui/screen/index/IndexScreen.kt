@@ -1,5 +1,7 @@
 package me.rerere.zhiwang.ui.screen.index
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +14,7 @@ import androidx.compose.material.icons.filled.Public
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.insets.navigationBarsPadding
@@ -37,7 +40,7 @@ fun IndexScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopBar()
+            TopBar(indexScreenVideoModel)
         },
         bottomBar = {
             BottomNavigation(modifier = Modifier.navigationBarsPadding()) {
@@ -97,10 +100,24 @@ fun IndexScreen(
 
 
 @Composable
-private fun TopBar() {
+private fun TopBar(indexScreenVideoModel: IndexScreenVideoModel) {
+    val context = LocalContext.current
     FullScreenTopBar(
         title = {
             Text(text = "ASoul小作文助手")
+        },
+        actions = {
+            if(indexScreenVideoModel.foundUpdate){
+                TextButton(onClick = {
+                    val intent = Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://github.com/jiangdashao/ASoulZhiWang/releases/latest")
+                    )
+                    context.startActivity(intent)
+                }) {
+                    Text(text = "APP有更新")
+                }
+            }
         }
     )
 }
