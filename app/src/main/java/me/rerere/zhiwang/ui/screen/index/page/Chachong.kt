@@ -61,7 +61,13 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                 modifier = Modifier
                     .fillMaxWidth()
                     .animateContentSize()
-                    .height(if (response == null) 200.dp else 80.dp)
+                    .let {
+                        if (response == null){
+                            it.height(200.dp)
+                        }else {
+                            it.wrapContentHeight()
+                        }
+                    }
                     .padding(16.dp),
                 value = indexScreenVideoModel.content,
                 onValueChange = {
@@ -78,7 +84,8 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                     unfocusedIndicatorColor = Color.Transparent
                 ),
                 shape = RoundedCornerShape(5.dp),
-                isError = error
+                isError = error,
+                maxLines = if (response == null) 8 else 1
             )
             // 输入框清空
             androidx.compose.animation.AnimatedVisibility(visible = indexScreenVideoModel.content.isNotEmpty()) {
