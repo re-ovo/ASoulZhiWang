@@ -1,6 +1,8 @@
 package me.rerere.zhiwang
 
+import android.os.Build
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -10,6 +12,7 @@ import androidx.compose.material.primarySurface
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,7 +30,6 @@ class MainActivity : ComponentActivity() {
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // 全屏
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -57,6 +59,13 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+
+        val existingComposeView = window.decorView
+            .findViewById<ViewGroup>(android.R.id.content)
+            .getChildAt(0) as? ComposeView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            existingComposeView?.isForceDarkAllowed = false
         }
     }
 }
