@@ -64,6 +64,11 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
 
+    // Paging3
+    def paging_version = "3.0.0"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha11"
+
     // 图标扩展
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
 

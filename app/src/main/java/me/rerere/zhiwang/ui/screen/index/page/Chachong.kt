@@ -5,7 +5,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -37,6 +36,8 @@ import me.rerere.zhiwang.ui.screen.index.IndexScreenVideoModel
 import me.rerere.zhiwang.util.formatToString
 import me.rerere.zhiwang.util.getClipboardContent
 import me.rerere.zhiwang.util.noRippleClickable
+import java.text.DateFormat
+import java.util.*
 
 @ExperimentalAnimationApi
 @Composable
@@ -89,23 +90,28 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                 isError = error,
                 maxLines = if (response == null) 8 else 1
             )
-            // 输入框清空
+
+            // 输入框上的按钮
             Row(
                 modifier = Modifier
                     .padding(20.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(modifier = Modifier.noRippleClickable {
-                    val text = context.getClipboardContent()
-                    text?.let {
-                        indexScreenVideoModel.content = it
-                    } ?: kotlin.run {
-                        Toast.makeText(context, "剪贴板没有内容", Toast.LENGTH_SHORT).show()
-                    }
-                }, imageVector = Icons.Default.ContentPaste, contentDescription = null)
+                // 从剪贴板粘贴
+                androidx.compose.animation.AnimatedVisibility(visible = indexScreenVideoModel.queryResult.value == null) {
+                    Icon(modifier = Modifier.noRippleClickable {
+                        val text = context.getClipboardContent()
+                        text?.let {
+                            indexScreenVideoModel.content = it
+                        } ?: kotlin.run {
+                            Toast.makeText(context, "剪贴板没有内容", Toast.LENGTH_SHORT).show()
+                        }
+                    }, imageVector = Icons.Default.ContentPaste, contentDescription = null)
+                }
 
                 Spacer(modifier = Modifier.width(4.dp))
 
+                // 清空
                 androidx.compose.animation.AnimatedVisibility(visible = indexScreenVideoModel.content.isNotEmpty()) {
                     Icon(modifier = Modifier.noRippleClickable {
                         indexScreenVideoModel.content = ""
@@ -151,9 +157,11 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
         }
 
         if (indexScreenVideoModel.error) {
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .height(120.dp), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp), contentAlignment = Alignment.Center
+            ) {
                 Column {
                     Text(text = "加载错误！😨", fontWeight = FontWeight.Bold)
                     Text(text = "请检查你的网络连接，或者可能是查重服务器维护中")
@@ -201,7 +209,12 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                                     ClipData.newPlainText(
                                         null, """
                                     查重结果:
-                                    * 重复率: ${(it.data.rate * 100).formatToString()}%
+                                    * 查重时间: ${
+                                            DateFormat.getDateInstance(0, Locale.CHINA).format(
+                                                Date()
+                                            )
+                                        }
+                                    * 文字复制率: ${(it.data.rate * 100).formatToString()}%
                                     * 首次出现于: ${if (it.data.related.isNotEmpty()) it.data.related[0][2] else "无"}
                                     数据来源于枝网，仅供参考
                                 """.trimIndent()

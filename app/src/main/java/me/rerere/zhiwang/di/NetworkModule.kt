@@ -5,12 +5,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import me.rerere.zhiwang.api.zhiwang.ZhiWangService
-import me.rerere.zhiwang.repo.ZhiwangRepo
+import me.rerere.zhiwang.api.zuowen.ZuowenService
+import me.rerere.zhiwang.repo.ZuowenRepo
 import me.rerere.zhiwang.util.UserAgentInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 // User Agent
@@ -31,9 +33,10 @@ object NetworkModule {
         .addInterceptor(UserAgentInterceptor(USER_AGENT))
         .build()
 
+    @ZhiwangRetrofit
     @Provides
     @Singleton
-    fun provideRetrofitClient(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideZhiwangRetrofitClient(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl("https://asoulcnki.asia")
         .addConverterFactory(GsonConverterFactory.create())
@@ -41,10 +44,30 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideZhiwangService(retrofit: Retrofit): ZhiWangService = retrofit
+    fun provideZhiwangService(@ZhiwangRetrofit retrofit: Retrofit): ZhiWangService = retrofit
         .create(ZhiWangService::class.java)
+
+    @ZuowenRetrofit
+    @Provides
+    @Singleton
+    fun provideZuowenRetrofit(okHttpClient: OkHttpClient) = Retrofit.Builder()
+        .client(okHttpClient)
+        .baseUrl("https://asoul.icu")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
     @Provides
     @Singleton
-    fun provideZhiwangRepo(zhiWangService: ZhiWangService) = ZhiwangRepo(zhiWangService)
+    fun provideZuowenService(@ZuowenRetrofit retrofit: Retrofit) : ZuowenService = retrofit
+        .create(ZuowenService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideZhiwangRepo(zhiWangService: ZhiWangService, zuowenService: ZuowenService) = ZuowenRepo(zhiWangService, zuowenService)
 }
+
+@Qualifier
+annotation class ZhiwangRetrofit
+
+@Qualifier
+annotation class ZuowenRetrofit
