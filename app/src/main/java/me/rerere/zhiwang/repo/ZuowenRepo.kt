@@ -24,11 +24,15 @@ class ZuowenRepo(
 
             // 获取用户信息
             this.data.related.forEach {
-                val userInfo = it[1] as MutableMap<Any, Any>
-                val bilibiliUser = bilibiliUtil.getUserInfo((userInfo["mid"] as Double).toInt())
-                bilibiliUser?.let { user ->
-                    userInfo["avatar"] = user.data.face.replace("http:","https:")
-                    println("头像: ${user.data.face}")
+                try {
+                    val userInfo = it[1] as MutableMap<Any, Any>
+                    val bilibiliUser = bilibiliUtil.getUserInfo((userInfo["mid"] as Double).toInt())
+                    bilibiliUser?.let { user ->
+                        userInfo["avatar"] = user.data.face.replace("http:", "https:")
+                        println("头像: ${user.data.face}")
+                    }
+                }catch (e: Exception){
+                    e.printStackTrace()
                 }
             }
         }
