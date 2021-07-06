@@ -41,11 +41,12 @@ class MainActivity : ComponentActivity() {
 
                     val systemUiController = rememberSystemUiController()
                     val primaryColor = MaterialTheme.colors.primarySurface
+                    val darkIcons = MaterialTheme.colors.isLight
 
                     // set ui color
                     SideEffect {
                         systemUiController.setNavigationBarColor(primaryColor)
-                        systemUiController.setStatusBarColor(Color.Transparent, false)
+                        systemUiController.setStatusBarColor(Color.Transparent, darkIcons = darkIcons)
                     }
 
                     NavHost(
