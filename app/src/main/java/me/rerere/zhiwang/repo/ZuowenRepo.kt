@@ -15,7 +15,9 @@ class ZuowenRepo(
         autoRetry {
             zhiWangService.query(content)
         }?.apply {
-            this.data.related = this.data.related.reversed()
+            this.data.related = this.data.related.sortedBy {
+                ((it[1] as Map<*,*>)["ctime"] as Double).toLong()
+            }
         }
     }
 

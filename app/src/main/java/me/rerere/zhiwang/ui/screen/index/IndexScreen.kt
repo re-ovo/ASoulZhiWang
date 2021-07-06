@@ -20,6 +20,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import me.rerere.zhiwang.ui.public.FullScreenTopBar
+import me.rerere.zhiwang.ui.screen.index.page.AboutPage
 import me.rerere.zhiwang.ui.screen.index.page.Content
 import me.rerere.zhiwang.ui.screen.index.page.Zuowen
 
@@ -85,7 +86,7 @@ fun IndexScreen(
                     }
                     2 -> {
                         Box(modifier = Modifier.fillMaxSize()) {
-                            Text(text = "还没写")
+                            AboutPage()
                         }
                     }
                 }
