@@ -3,6 +3,7 @@ package me.rerere.zhiwang
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -20,10 +21,13 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.WindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dagger.hilt.android.AndroidEntryPoint
 import me.rerere.zhiwang.ui.screen.index.IndexScreen
 import me.rerere.zhiwang.ui.theme.ZhiWangTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -50,7 +54,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = "index"
                     ) {
                         composable("index") {
-                            IndexScreen()
+                            IndexScreen(navController)
                         }
                     }
                 }

@@ -2,7 +2,9 @@ package me.rerere.zhiwang
 
 import android.app.Application
 import android.content.Context
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class AppContext : Application() {
     companion object {
         lateinit var appContext: Context
