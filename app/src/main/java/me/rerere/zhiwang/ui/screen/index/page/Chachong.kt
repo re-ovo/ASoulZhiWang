@@ -147,8 +147,8 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
 
         // 加载动画
         if (indexScreenVideoModel.loading) {
-            val width = listOf(0.9f, 1f, 0.87f, 0.83f, 0.89f)
-            repeat(5) {
+            val width = listOf(0.9f, 1f, 0.87f, 0.83f, 0.89f, 0.86f)
+            repeat(6) {
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth(width[it])
@@ -176,11 +176,11 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
         response?.let {
             when (it.code) {
                 0 -> {
-                    Card(
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        elevation = 4.dp
+                        //elevation = 4.dp
                     ) {
                         Column(
                             modifier = Modifier.padding(16.dp),

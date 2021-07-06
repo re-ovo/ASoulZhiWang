@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import me.rerere.zhiwang.api.bilibili.BilibiliUtil
 import me.rerere.zhiwang.api.zhiwang.ZhiWangService
 import me.rerere.zhiwang.api.zuowen.ZuowenService
 import me.rerere.zhiwang.repo.ZuowenRepo
@@ -32,6 +33,10 @@ object NetworkModule {
         .callTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
         .addInterceptor(UserAgentInterceptor(USER_AGENT))
         .build()
+
+    @Provides
+    @Singleton
+    fun provideBilibiliUtil(okHttpClient: OkHttpClient) = BilibiliUtil(okHttpClient)
 
     @ZhiwangRetrofit
     @Provides
@@ -63,7 +68,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideZhiwangRepo(zhiWangService: ZhiWangService, zuowenService: ZuowenService) = ZuowenRepo(zhiWangService, zuowenService)
+    fun provideZhiwangRepo(zhiWangService: ZhiWangService, zuowenService: ZuowenService, bilibiliUtil: BilibiliUtil) = ZuowenRepo(zhiWangService, zuowenService, bilibiliUtil)
 }
 
 @Qualifier

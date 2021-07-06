@@ -2,8 +2,10 @@ package me.rerere.zhiwang.ui.public
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -12,16 +14,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.google.accompanist.coil.rememberCoilPainter
+import com.google.accompanist.imageloading.ImageLoadState
+import com.google.accompanist.placeholder.material.placeholder
 import me.rerere.zhiwang.ui.theme.PINK
 import me.rerere.zhiwang.util.formatToString
 import java.sql.Timestamp
 import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
@@ -49,12 +53,24 @@ fun XiaoZuoWen(data: List<Any>) {
                     .fillMaxWidth()
                     .padding(vertical = 4.dp)
             ) {
-                val (name, likes) = createRefs()
+                val (avatar, name, likes) = createRefs()
+                val painter = rememberCoilPainter(userInfo["avatar"] as? String)
+                Box(modifier = Modifier
+                    .constrainAs(avatar){
+                        start.linkTo(parent.start, 8.dp)
+                        top.linkTo(parent.top)
+                    }
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .placeholder(painter.loadState is ImageLoadState.Loading)
+                ){
+                    Image(painter = painter, contentDescription = null, modifier = Modifier.fillMaxSize())
+                }
                 // 名字
                 Text(
                     modifier = Modifier.constrainAs(name) {
-                        start.linkTo(parent.start, 8.dp)
-                        top.linkTo(parent.top)
+                        start.linkTo(avatar.end, 8.dp)
+                        centerVerticallyTo(avatar)
                     },
                     text = userInfo["m_name"] as String,
                     fontWeight = FontWeight.Bold,
@@ -63,7 +79,7 @@ fun XiaoZuoWen(data: List<Any>) {
                 // 点赞
                 Row(modifier = Modifier.constrainAs(likes) {
                     end.linkTo(parent.end, 8.dp)
-                    top.linkTo(parent.top)
+                    centerVerticallyTo(avatar)
                 }, verticalAlignment = Alignment.CenterVertically) {
                     Icon(modifier = Modifier.size(15.dp), imageVector = Icons.Default.ThumbUp, contentDescription = null)
                     Spacer(modifier = Modifier.width(3.dp))
