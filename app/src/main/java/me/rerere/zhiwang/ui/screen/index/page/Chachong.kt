@@ -121,6 +121,7 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
             }
         }
         val focusManager = LocalFocusManager.current
+
         // 查重按钮
         Button(
             modifier = Modifier
@@ -133,6 +134,8 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                     // 小作文长度不够
                     error = true
                     Toast.makeText(context, "小作文至少需要10个字哦", Toast.LENGTH_SHORT).show()
+                } else if(System.currentTimeMillis() - indexScreenVideoModel.lastQuery <= 5000L) {
+                    Toast.makeText(context, "请等待 5 秒再查重哦！", Toast.LENGTH_SHORT).show()
                 } else {
                     // 开始查询
                     indexScreenVideoModel.resetResult()

@@ -26,6 +26,7 @@ class IndexScreenVideoModel @Inject constructor(
     var content by mutableStateOf("嘉然的脚小小的香香的，不像手经常使用来得灵活，但有一种独特的可爱的笨拙，嫩嫩的脚丫光滑细腻")
     val queryResult = MutableLiveData<Response>()
     var error by mutableStateOf(false)
+    var lastQuery by mutableStateOf(0L)
 
     // 小作文
     val pager = Pager(
@@ -39,6 +40,7 @@ class IndexScreenVideoModel @Inject constructor(
     }.flow.cachedIn(viewModelScope)
 
     fun query() {
+        lastQuery = System.currentTimeMillis()
         viewModelScope.launch {
             loading = true
             error = false
