@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.ContentPaste
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -34,6 +35,7 @@ import com.google.accompanist.placeholder.material.shimmer
 import me.rerere.zhiwang.ui.public.XiaoZuoWen
 import me.rerere.zhiwang.ui.screen.index.IndexScreenVideoModel
 import me.rerere.zhiwang.util.formatToString
+import me.rerere.zhiwang.util.getClipboardContent
 import me.rerere.zhiwang.util.noRippleClickable
 
 @ExperimentalAnimationApi
@@ -45,7 +47,7 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
         mutableStateOf(false)
     }
     val context = LocalContext.current
-
+    // 返回处理
     BackHandler(response != null) {
         indexScreenVideoModel.resetResult()
     }
@@ -62,9 +64,9 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                     .fillMaxWidth()
                     .animateContentSize()
                     .let {
-                        if (response == null){
+                        if (response == null) {
                             it.height(200.dp)
-                        }else {
+                        } else {
                             it.wrapContentHeight()
                         }
                     }
@@ -88,14 +90,27 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                 maxLines = if (response == null) 8 else 1
             )
             // 输入框清空
-            androidx.compose.animation.AnimatedVisibility(visible = indexScreenVideoModel.content.isNotEmpty()) {
-                Box(modifier = Modifier
-                    .padding(16.dp)
-                    .noRippleClickable {
+            Row(
+                modifier = Modifier
+                    .padding(20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(modifier = Modifier.noRippleClickable {
+                    val text = context.getClipboardContent()
+                    text?.let {
+                        indexScreenVideoModel.content = it
+                    } ?: kotlin.run {
+                        Toast.makeText(context, "剪贴板没有内容", Toast.LENGTH_SHORT).show()
+                    }
+                }, imageVector = Icons.Default.ContentPaste, contentDescription = null)
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                androidx.compose.animation.AnimatedVisibility(visible = indexScreenVideoModel.content.isNotEmpty()) {
+                    Icon(modifier = Modifier.noRippleClickable {
                         indexScreenVideoModel.content = ""
                         indexScreenVideoModel.queryResult.value = null
-                    }) {
-                    Icon(Icons.Default.Clear, null)
+                    }, imageVector = Icons.Default.Clear, contentDescription = null)
                 }
             }
         }
@@ -135,7 +150,7 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
             }
         }
 
-        if(indexScreenVideoModel.error){
+        if (indexScreenVideoModel.error) {
             Text(text = "加载失败！😨", fontWeight = FontWeight.Bold)
         }
 
@@ -207,8 +222,18 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                 }
             }
         }
-        
-        Spacer(modifier = Modifier.padding(vertical = 8.dp).fillMaxWidth().height(0.5.dp).background(Color.Gray))
-        Text(modifier = Modifier.fillMaxWidth(), text = "数据来源于: https://asoulcnki.asia/", textAlign = TextAlign.Center)
+
+        Spacer(
+            modifier = Modifier
+                .padding(vertical = 8.dp)
+                .fillMaxWidth()
+                .height(0.5.dp)
+                .background(Color.Gray)
+        )
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = "数据来源于: https://asoulcnki.asia/",
+            textAlign = TextAlign.Center
+        )
     }
 }
