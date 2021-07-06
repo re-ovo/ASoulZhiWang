@@ -151,7 +151,14 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
         }
 
         if (indexScreenVideoModel.error) {
-            Text(text = "加载失败！😨", fontWeight = FontWeight.Bold)
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .height(120.dp), contentAlignment = Alignment.Center) {
+                Column {
+                    Text(text = "加载错误！😨", fontWeight = FontWeight.Bold)
+                    Text(text = "请检查你的网络连接，或者可能是查重服务器维护中")
+                }
+            }
         }
 
         // 结果

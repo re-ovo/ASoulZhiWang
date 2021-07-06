@@ -14,7 +14,7 @@ private const val TAG = "AutoRetry"
  * @return 最终响应
  */
 suspend fun autoRetry(
-    @IntRange(from = 2) maxRetry: Int = 10, // 重连次数
+    @IntRange(from = 2) maxRetry: Int = 3, // 重连次数
     action: suspend () -> Response
 ): Response? {
     repeat(maxRetry - 1) {
