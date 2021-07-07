@@ -7,6 +7,7 @@ import android.os.Build
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.CacheControl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
@@ -18,6 +19,7 @@ suspend fun checkUpdate(context: Context): Boolean {
         try {
             val okHttpClient = OkHttpClient()
             val request = Request.Builder()
+                .cacheControl(CacheControl.Builder().noCache().build())
                 .url("https://raw.githubusercontent.com/jiangdashao/ASoulZhiWang/master/app/build.gradle")
                 .get()
                 .build()

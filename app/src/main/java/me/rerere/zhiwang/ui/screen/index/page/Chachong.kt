@@ -27,7 +27,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
@@ -42,21 +41,23 @@ import java.util.*
 @ExperimentalAnimationApi
 @Composable
 fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: ScaffoldState) {
-    val coroutineScope = rememberCoroutineScope()
+    // val coroutineScope = rememberCoroutineScope()
     val response by indexScreenVideoModel.queryResult.observeAsState()
     var error by remember {
         mutableStateOf(false)
     }
     val context = LocalContext.current
+
     // 返回处理
+    // 显示了查重结果的时候点击返回键会清空查重结果，方便重新查重
     BackHandler(response != null) {
         indexScreenVideoModel.resetResult()
     }
 
+    // 查重页面
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .navigationBarsPadding()
     ) {
         // 输入框
         Box(contentAlignment = Alignment.BottomEnd) {
@@ -159,6 +160,7 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
             }
         }
 
+        // 加载错误
         if (indexScreenVideoModel.error) {
             Box(
                 modifier = Modifier
@@ -205,6 +207,7 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                                 )
                             }
                             Spacer(modifier = Modifier.height(8.dp))
+                            // "复制查重结果"按钮
                             OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
                                 val clipboardManager =
                                     context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -229,11 +232,13 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                             }
                         }
                     }
+                    // 查重结果概述
                     Text(
                         text = "相似小作文: (${it.data.related.size}篇)",
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)
                     )
+                    // 相似小作文列表
                     LazyColumn(Modifier.fillMaxWidth()) {
                         items(it.data.related) { zuowen ->
                             XiaoZuoWen(zuowen)

@@ -42,12 +42,13 @@ class MainActivity : ComponentActivity() {
                     val primaryColor = MaterialTheme.colors.primarySurface
                     val darkIcons = MaterialTheme.colors.isLight
 
-                    // set ui color
+                    // 设置状态栏和导航栏颜色
                     SideEffect {
                         systemUiController.setNavigationBarColor(primaryColor)
                         systemUiController.setStatusBarColor(Color.Transparent, darkIcons = darkIcons)
                     }
 
+                    // 导航部件
                     NavHost(
                         modifier = Modifier.fillMaxSize(),
                         navController = navController,
@@ -61,6 +62,8 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        // 禁止强制暗色模式，因为已经适配了夜间模式，所以不需要强制反色
+        // 国产UI似乎必需这样做(isForceDarkAllowed = false)才能阻止反色，原生会自动识别
         val existingComposeView = window.decorView
             .findViewById<ViewGroup>(android.R.id.content)
             .getChildAt(0) as? ComposeView
