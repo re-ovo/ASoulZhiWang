@@ -46,4 +46,13 @@ class ZuowenRepo(
             null
         }
     }
+
+    suspend fun getZuowenContent(id: String) = withContext(Dispatchers.IO){
+        try {
+            zuowenService.getZuowenContent(id)
+        } catch (e: Exception){
+            e.printStackTrace()
+            null
+        }
+    }
 }

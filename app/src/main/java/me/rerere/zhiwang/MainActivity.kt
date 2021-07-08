@@ -14,14 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.WindowCompat
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import me.rerere.zhiwang.ui.screen.index.IndexScreen
+import me.rerere.zhiwang.ui.screen.zuowen.ZuowenScreen
 import me.rerere.zhiwang.ui.theme.ZhiWangTheme
 
 @AndroidEntryPoint
@@ -45,7 +48,10 @@ class MainActivity : ComponentActivity() {
                     // 设置状态栏和导航栏颜色
                     SideEffect {
                         systemUiController.setNavigationBarColor(primaryColor)
-                        systemUiController.setStatusBarColor(Color.Transparent, darkIcons = darkIcons)
+                        systemUiController.setStatusBarColor(
+                            Color.Transparent,
+                            darkIcons = darkIcons
+                        )
                     }
 
                     // 导航部件
@@ -56,6 +62,26 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable("index") {
                             IndexScreen(navController)
+                        }
+
+                        composable("zuowen?id={id}&title={title}&author={author}",
+                            arguments = listOf(
+                                navArgument("id") {
+                                    type = NavType.StringType
+                                },
+                                navArgument("title") {
+                                    type = NavType.StringType
+                                },
+                                navArgument("author") {
+                                    type = NavType.StringType
+                                }
+                            )) {
+                            ZuowenScreen(
+                                navController,
+                                it.arguments?.getString("id")!!,
+                                it.arguments?.getString("title")!!,
+                                it.arguments?.getString("author")!!,
+                            )
                         }
                     }
                 }

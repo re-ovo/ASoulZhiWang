@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.insets.navigationBarsPadding
@@ -26,6 +27,7 @@ import me.rerere.zhiwang.ui.public.FullScreenTopBar
 import me.rerere.zhiwang.ui.screen.index.page.AboutPage
 import me.rerere.zhiwang.ui.screen.index.page.Content
 import me.rerere.zhiwang.ui.screen.index.page.Zuowen
+import me.rerere.zhiwang.util.noRippleClickable
 
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
@@ -84,7 +86,10 @@ fun IndexScreen(
                     }
                     1 -> {
                         Box(modifier = Modifier.fillMaxSize()) {
-                            Zuowen(indexScreenVideoModel = indexScreenVideoModel)
+                            Zuowen(
+                                indexScreenVideoModel = indexScreenVideoModel,
+                                navController = navController
+                            )
                         }
                     }
                     2 -> {
@@ -107,16 +112,14 @@ private fun TopBar(indexScreenVideoModel: IndexScreenVideoModel) {
             Text(text = "ASoul小作文助手")
         },
         actions = {
-            if(indexScreenVideoModel.foundUpdate){
-                TextButton(onClick = {
+            if (indexScreenVideoModel.foundUpdate) {
+                Text(text = "APP有更新", modifier = Modifier.noRippleClickable {
                     val intent = Intent(
                         Intent.ACTION_VIEW,
                         Uri.parse("https://github.com/jiangdashao/ASoulZhiWang/releases/latest")
                     )
                     context.startActivity(intent)
-                }) {
-                    Text(text = "APP有更新")
-                }
+                }.padding(horizontal = 16.dp))
             }
         }
     )

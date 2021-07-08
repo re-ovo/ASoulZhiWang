@@ -1,9 +1,5 @@
 package me.rerere.zhiwang.ui.screen.index.page
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
@@ -28,14 +25,14 @@ import me.rerere.zhiwang.ui.screen.index.IndexScreenVideoModel
 import me.rerere.zhiwang.util.noRippleClickable
 
 @Composable
-fun Zuowen(indexScreenVideoModel: IndexScreenVideoModel) {
+fun Zuowen(indexScreenVideoModel: IndexScreenVideoModel, navController: NavController) {
     val articleList = indexScreenVideoModel.pager.collectAsLazyPagingItems()
     SwipeRefresh(
         state = rememberSwipeRefreshState(articleList.loadState.refresh == LoadState.Loading),
         onRefresh = { articleList.refresh() }) {
         LazyColumn(Modifier.fillMaxSize()) {
             items(articleList) {
-                Article(it!!)
+                Article(it!!, navController)
             }
 
             when (articleList.loadState.append) {
@@ -69,24 +66,14 @@ fun Zuowen(indexScreenVideoModel: IndexScreenVideoModel) {
 }
 
 @Composable
-private fun Article(article: ZuowenResponse.Article) {
+private fun Article(article: ZuowenResponse.Article, navController: NavController) {
     val context = LocalContext.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
             .clickable {
-                val clipboardManager =
-                    context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                clipboardManager.setPrimaryClip(
-                    ClipData.newPlainText(
-                        null,
-                        article.plainContent
-                    )
-                )
-                Toast
-                    .makeText(context, "已复制小作文到剪贴板", Toast.LENGTH_SHORT)
-                    .show()
+                navController.navigate("zuowen?id=${article.id}&title=${article.title}&author=${article.author}")
             },
         elevation = 4.dp
     ) {
