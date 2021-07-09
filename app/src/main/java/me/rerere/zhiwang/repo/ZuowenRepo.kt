@@ -3,6 +3,7 @@ package me.rerere.zhiwang.repo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.rerere.zhiwang.api.bilibili.BilibiliUtil
+import me.rerere.zhiwang.api.bilibili.SubResult
 import me.rerere.zhiwang.api.zhiwang.Request
 import me.rerere.zhiwang.api.zhiwang.ZhiWangService
 import me.rerere.zhiwang.api.zuowen.ZuowenService
@@ -54,5 +55,9 @@ class ZuowenRepo(
             e.printStackTrace()
             null
         }
+    }
+
+    suspend fun getAllSubLis(link: String) : SubResult? = withContext(Dispatchers.IO){
+        bilibiliUtil.getAllSubLis(link)
     }
 }

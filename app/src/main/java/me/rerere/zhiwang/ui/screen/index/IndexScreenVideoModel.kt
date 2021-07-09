@@ -12,6 +12,7 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.rerere.zhiwang.AppContext
+import me.rerere.zhiwang.api.bilibili.SubUser
 import me.rerere.zhiwang.api.zhiwang.Request
 import me.rerere.zhiwang.api.zhiwang.Response
 import me.rerere.zhiwang.api.zuowen.ZuowenPageSource
@@ -30,6 +31,17 @@ class IndexScreenVideoModel @Inject constructor(
     var error by mutableStateOf(false)
     var lastQuery by mutableStateOf(0L)
 
+
+    // 找到更新
+    var foundUpdate by mutableStateOf(false)
+
+    init {
+        // 检查更新
+        viewModelScope.launch {
+            foundUpdate = checkUpdate(AppContext.appContext)
+        }
+    }
+
     // 小作文
     val pager = Pager(
         config = PagingConfig(
@@ -43,14 +55,25 @@ class IndexScreenVideoModel @Inject constructor(
 
     // 查成分
     var profileLink by mutableStateOf("")
+    var cfLoading by mutableStateOf(false)
+    var cfError by mutableStateOf(false)
+    var name by mutableStateOf("")
+    var sublist by mutableStateOf(emptySet<SubUser>())
 
-    // 找到更新
-    var foundUpdate by mutableStateOf(false)
-
-    init {
-        // 检查更新
+    fun chaChengFen(){
         viewModelScope.launch {
-            foundUpdate = checkUpdate(AppContext.appContext)
+            cfLoading = true
+            cfError = false
+
+            val result = zhiwangRepo.getAllSubLis(profileLink)
+            result?.let {
+                name = it.name
+                sublist = it.subList
+            } ?: kotlin.run {
+                cfError = true
+            }
+
+            cfLoading = false
         }
     }
 
