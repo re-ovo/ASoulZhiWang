@@ -25,7 +25,7 @@ A-SOUL是乐华娱乐于2020年11月23日公开的其旗下首个虚拟偶像团
 * Paging3 - 列表数据加载库
 
 ## 截图 🎞
-| 查重 | 小作文库 | 关于 |
+| 查重 | 小作文库 | 查成分 |
 | ----- | ------| ------|
-| <img src="screenshots/query.png" align="left" height="400">| <img src="screenshots/zuowen.png" align="left" height="400">| <img src="screenshots/about.png" align="left" height="400"> |
+| <img src="screenshots/query.png" align="left" height="400">| <img src="screenshots/zuowen.png" align="left" height="400">| <img src="screenshots/chengfen.png" align="left" height="400"> |
 
