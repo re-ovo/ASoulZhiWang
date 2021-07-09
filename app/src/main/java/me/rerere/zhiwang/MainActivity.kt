@@ -8,7 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.primarySurface
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.rerere.zhiwang.ui.screen.index.IndexScreen
 import me.rerere.zhiwang.ui.screen.zuowen.ZuowenScreen
 import me.rerere.zhiwang.ui.theme.ZhiWangTheme
+import me.rerere.zhiwang.ui.theme.uiBackGroundColor
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
 
                     val systemUiController = rememberSystemUiController()
-                    val primaryColor = MaterialTheme.colors.primarySurface
+                    val primaryColor = MaterialTheme.colors.uiBackGroundColor
                     val darkIcons = MaterialTheme.colors.isLight
 
                     // 设置状态栏和导航栏颜色

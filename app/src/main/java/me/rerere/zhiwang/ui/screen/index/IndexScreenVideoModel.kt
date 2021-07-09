@@ -41,6 +41,9 @@ class IndexScreenVideoModel @Inject constructor(
         ZuowenPageSource(zhiwangRepo)
     }.flow.cachedIn(viewModelScope)
 
+    // 查成分
+    var profileLink by mutableStateOf("")
+
     // 找到更新
     var foundUpdate by mutableStateOf(false)
 

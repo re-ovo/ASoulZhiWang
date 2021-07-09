@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -23,10 +24,13 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import me.rerere.zhiwang.R
 import me.rerere.zhiwang.ui.public.FullScreenTopBar
 import me.rerere.zhiwang.ui.screen.index.page.AboutPage
+import me.rerere.zhiwang.ui.screen.index.page.ChengfenPage
 import me.rerere.zhiwang.ui.screen.index.page.Content
 import me.rerere.zhiwang.ui.screen.index.page.Zuowen
+import me.rerere.zhiwang.ui.theme.uiBackGroundColor
 import me.rerere.zhiwang.util.noRippleClickable
 
 @ExperimentalPagerApi
@@ -37,7 +41,7 @@ fun IndexScreen(
     indexScreenVideoModel: IndexScreenVideoModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
-    val pager = rememberPagerState(pageCount = 3, initialPage = 0)
+    val pager = rememberPagerState(pageCount = 4, initialPage = 0)
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
         scaffoldState = scaffoldState,
@@ -45,14 +49,21 @@ fun IndexScreen(
             TopBar(indexScreenVideoModel)
         },
         bottomBar = {
-            BottomNavigation(modifier = Modifier.navigationBarsPadding()) {
+            val pages = listOf(
+                0 to "小作文查重",
+                1 to "小作文库",
+                2 to "查成分",
+                3 to "关于"
+            )
+
+            BottomNavigation(modifier = Modifier.navigationBarsPadding(), backgroundColor = MaterialTheme.colors.uiBackGroundColor) {
                 BottomNavigationItem(
                     selected = pager.currentPage == 0,
                     onClick = { coroutineScope.launch { pager.animateScrollToPage(0) } },
                     icon = {
                         Icon(Icons.Default.FindInPage, null)
                     }, label = {
-                        Text(text = "小作文查重")
+                        Text(text = pages[0].second)
                     })
                 BottomNavigationItem(
                     selected = pager.currentPage == 1,
@@ -60,15 +71,23 @@ fun IndexScreen(
                     icon = {
                         Icon(Icons.Default.Public, null)
                     }, label = {
-                        Text(text = "优秀小作文")
+                        Text(text = pages[1].second)
                     })
                 BottomNavigationItem(
                     selected = pager.currentPage == 2,
                     onClick = { coroutineScope.launch { pager.animateScrollToPage(2) } },
                     icon = {
+                        Icon(painterResource(R.drawable.chengfen), null)
+                    }, label = {
+                        Text(text = pages[2].second)
+                    })
+                BottomNavigationItem(
+                    selected = pager.currentPage == 3,
+                    onClick = { coroutineScope.launch { pager.animateScrollToPage(3) } },
+                    icon = {
                         Icon(Icons.Default.Info, null)
                     }, label = {
-                        Text(text = "关于")
+                        Text(text = pages[3].second)
                     })
             }
         }
@@ -94,6 +113,11 @@ fun IndexScreen(
                     }
                     2 -> {
                         Box(modifier = Modifier.fillMaxSize()) {
+                            ChengfenPage(indexScreenVideoModel)
+                        }
+                    }
+                    3 -> {
+                        Box(modifier = Modifier.fillMaxSize()) {
                             AboutPage()
                         }
                     }
@@ -113,13 +137,15 @@ private fun TopBar(indexScreenVideoModel: IndexScreenVideoModel) {
         },
         actions = {
             if (indexScreenVideoModel.foundUpdate) {
-                Text(text = "APP有更新", modifier = Modifier.noRippleClickable {
-                    val intent = Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://github.com/jiangdashao/ASoulZhiWang/releases/latest")
-                    )
-                    context.startActivity(intent)
-                }.padding(horizontal = 16.dp))
+                Text(text = "APP有更新", modifier = Modifier
+                    .noRippleClickable {
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://github.com/jiangdashao/ASoulZhiWang/releases/latest")
+                        )
+                        context.startActivity(intent)
+                    }
+                    .padding(horizontal = 16.dp))
             }
         }
     )
