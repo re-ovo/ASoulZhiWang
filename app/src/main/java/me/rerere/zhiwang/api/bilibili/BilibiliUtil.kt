@@ -2,7 +2,7 @@ package me.rerere.zhiwang.api.bilibili
 
 import com.google.gson.Gson
 import kotlinx.coroutines.delay
-import me.rerere.zhiwang.util.await
+import me.rerere.zhiwang.util.net.await
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.jsoup.Jsoup

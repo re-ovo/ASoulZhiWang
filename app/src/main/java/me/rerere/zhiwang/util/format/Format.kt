@@ -1,4 +1,4 @@
-package me.rerere.zhiwang.util
+package me.rerere.zhiwang.util.format
 
 import kotlin.math.roundToInt
 

@@ -1,4 +1,4 @@
-package me.rerere.zhiwang.util
+package me.rerere.zhiwang.util.net
 
 import okhttp3.Interceptor
 import okhttp3.Request

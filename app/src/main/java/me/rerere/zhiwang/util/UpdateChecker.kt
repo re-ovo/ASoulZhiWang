@@ -7,10 +7,10 @@ import android.os.Build
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import me.rerere.zhiwang.util.net.await
 import okhttp3.CacheControl
 import okhttp3.OkHttpClient
 import okhttp3.Request
-
 
 private const val TAG = "UpdateChecker"
 

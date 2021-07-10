@@ -1,4 +1,4 @@
-package me.rerere.zhiwang.util
+package me.rerere.zhiwang.util.net
 
 import android.util.Log
 import androidx.annotation.IntRange

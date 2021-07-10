@@ -9,7 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.rerere.zhiwang.repo.ZuowenRepo
-import me.rerere.zhiwang.util.HtmlFormatUtil
+import me.rerere.zhiwang.util.format.HtmlFormatUtil
 import org.jsoup.Jsoup
 import javax.inject.Inject
 

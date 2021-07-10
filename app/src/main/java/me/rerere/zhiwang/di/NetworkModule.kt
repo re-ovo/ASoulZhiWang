@@ -8,7 +8,7 @@ import me.rerere.zhiwang.api.bilibili.BilibiliUtil
 import me.rerere.zhiwang.api.zhiwang.ZhiWangService
 import me.rerere.zhiwang.api.zuowen.ZuowenService
 import me.rerere.zhiwang.repo.ZuowenRepo
-import me.rerere.zhiwang.util.UserAgentInterceptor
+import me.rerere.zhiwang.util.net.UserAgentInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

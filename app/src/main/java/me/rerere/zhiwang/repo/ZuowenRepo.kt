@@ -7,7 +7,7 @@ import me.rerere.zhiwang.api.bilibili.SubResult
 import me.rerere.zhiwang.api.zhiwang.Request
 import me.rerere.zhiwang.api.zhiwang.ZhiWangService
 import me.rerere.zhiwang.api.zuowen.ZuowenService
-import me.rerere.zhiwang.util.autoRetry
+import me.rerere.zhiwang.util.net.autoRetry
 
 class ZuowenRepo(
     private val zhiWangService: ZhiWangService,

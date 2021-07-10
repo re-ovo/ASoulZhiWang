@@ -1,4 +1,4 @@
-package me.rerere.zhiwang.util
+package me.rerere.zhiwang.util.net
 
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.Call

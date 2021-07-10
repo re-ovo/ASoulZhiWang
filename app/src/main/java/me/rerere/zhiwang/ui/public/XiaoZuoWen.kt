@@ -23,7 +23,7 @@ import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.imageloading.ImageLoadState
 import com.google.accompanist.placeholder.material.placeholder
 import me.rerere.zhiwang.ui.theme.PINK
-import me.rerere.zhiwang.util.formatToString
+import me.rerere.zhiwang.util.format.formatToString
 import java.sql.Timestamp
 import java.text.DateFormat
 import java.util.*

@@ -1,4 +1,4 @@
-package me.rerere.zhiwang.util
+package me.rerere.zhiwang.util.android
 
 import android.content.ClipboardManager
 import android.content.Context

@@ -1,4 +1,4 @@
-package me.rerere.zhiwang.util
+package me.rerere.zhiwang.util.format
 
 import org.jsoup.internal.StringUtil
 import org.jsoup.nodes.Element

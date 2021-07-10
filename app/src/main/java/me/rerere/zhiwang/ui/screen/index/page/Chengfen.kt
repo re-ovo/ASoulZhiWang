@@ -25,7 +25,7 @@ import me.rerere.zhiwang.util.analyse
 import me.rerere.zhiwang.util.charts.pie.PieChart
 import me.rerere.zhiwang.util.charts.pie.PieChartData
 import me.rerere.zhiwang.util.charts.pie.PieChartEntry
-import me.rerere.zhiwang.util.formatToString
+import me.rerere.zhiwang.util.format.formatToString
 
 @Composable
 fun ChengfenPage(indexScreenVideoModel: IndexScreenVideoModel) {

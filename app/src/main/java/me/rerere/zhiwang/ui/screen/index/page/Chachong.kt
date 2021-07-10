@@ -32,8 +32,8 @@ import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
 import me.rerere.zhiwang.ui.public.XiaoZuoWen
 import me.rerere.zhiwang.ui.screen.index.IndexScreenVideoModel
-import me.rerere.zhiwang.util.formatToString
-import me.rerere.zhiwang.util.getClipboardContent
+import me.rerere.zhiwang.util.android.getClipboardContent
+import me.rerere.zhiwang.util.format.formatToString
 import me.rerere.zhiwang.util.noRippleClickable
 import java.text.DateFormat
 import java.util.*
