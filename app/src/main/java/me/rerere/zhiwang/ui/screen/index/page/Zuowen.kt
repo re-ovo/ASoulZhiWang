@@ -31,6 +31,14 @@ fun Zuowen(indexScreenVideoModel: IndexScreenVideoModel, navController: NavContr
         state = rememberSwipeRefreshState(articleList.loadState.refresh == LoadState.Loading),
         onRefresh = { articleList.refresh() }) {
         LazyColumn(Modifier.fillMaxSize()) {
+            if(articleList.loadState.refresh is LoadState.Error) {
+                item {
+                    Column(modifier = Modifier.fillMaxWidth().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(text = "加载失败，下拉重试 😱")
+                    }
+                }
+            }
+            
             items(articleList) {
                 Article(it!!, navController)
             }

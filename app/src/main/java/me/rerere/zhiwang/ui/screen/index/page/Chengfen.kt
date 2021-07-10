@@ -98,17 +98,17 @@ private fun ChengfengResult(indexScreenVideoModel: IndexScreenVideoModel) {
                 colors = PIE_COLORS
             )
         )
-        
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
             val clipboardManager =
                 context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            // 生成成分text
             var content = "用户 ${indexScreenVideoModel.name} 的成分如下:\n"
             data.forEach {
                 content += "* ${it.key}: ${(it.value * 100).formatToString()}%\n"
             }
             content += "成分仅供参考"
-
+            // 复制到剪贴板
             clipboardManager.setPrimaryClip(
                 ClipData.newPlainText(
                     null, content
