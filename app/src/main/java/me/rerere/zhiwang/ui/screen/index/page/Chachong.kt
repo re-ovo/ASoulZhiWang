@@ -230,6 +230,11 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                             }) {
                                 Text(text = "点击复制查重结果")
                             }
+                            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                                // 防止某些乱复制的
+                                Text(text = "请自行判别是否原创，请勿到处刷查重报告")
+                                Text(text = "A友们都是有素质的人捏")
+                            }
                         }
                     }
                     // 查重结果概述
@@ -261,6 +266,11 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = "数据来源于: https://asoulcnki.asia/",
+            textAlign = TextAlign.Center
+        )
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = "目前仅收录了官方账号下面的小作文，二创下的小作文并未收录，所以查重结果仅供参考哦",
             textAlign = TextAlign.Center
         )
     }
