@@ -18,6 +18,9 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.fade
+import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import me.rerere.zhiwang.api.zuowen.ZuowenResponse
@@ -38,7 +41,21 @@ fun Zuowen(indexScreenVideoModel: IndexScreenVideoModel, navController: NavContr
                     }
                 }
             }
-            
+
+            if(articleList.loadState.refresh == LoadState.Loading && articleList.itemCount == 0){
+                repeat(10){
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth()
+                                .height(70.dp)
+                                .placeholder(visible = true, highlight = PlaceholderHighlight.fade())
+                        )
+                    }
+                }
+            }
+
             items(articleList) {
                 Article(it!!, navController)
             }
