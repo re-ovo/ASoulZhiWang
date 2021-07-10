@@ -7,4 +7,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "ZhiWang"
-include ':app'
+include (":app")
