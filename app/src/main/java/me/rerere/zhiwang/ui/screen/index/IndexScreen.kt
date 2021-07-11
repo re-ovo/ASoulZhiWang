@@ -112,7 +112,10 @@ fun IndexScreen(
                     }
                     2 -> {
                         Box(modifier = Modifier.fillMaxSize()) {
-                            WikiPage(navController)
+                            WikiPage(
+                                navController = navController,
+                                indexViewModel = indexScreenVideoModel
+                            )
                         }
                     }
                     3 -> {

@@ -13,16 +13,19 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.rerere.zhiwang.AppContext
 import me.rerere.zhiwang.api.bilibili.SubUser
+import me.rerere.zhiwang.api.wiki.WikiList
 import me.rerere.zhiwang.api.zhiwang.Request
 import me.rerere.zhiwang.api.zhiwang.Response
 import me.rerere.zhiwang.api.zuowen.ZuowenPageSource
+import me.rerere.zhiwang.repo.WikiRepo
 import me.rerere.zhiwang.repo.ZuowenRepo
 import me.rerere.zhiwang.util.checkUpdate
 import javax.inject.Inject
 
 @HiltViewModel
 class IndexScreenVideoModel @Inject constructor(
-    private val zhiwangRepo: ZuowenRepo
+    private val zhiwangRepo: ZuowenRepo,
+    private val wikiRepo: WikiRepo
 ) : ViewModel() {
     // 查重
     var loading by mutableStateOf(false)
@@ -40,6 +43,9 @@ class IndexScreenVideoModel @Inject constructor(
         viewModelScope.launch {
             foundUpdate = checkUpdate(AppContext.appContext)
         }
+
+        // 加载wiki
+        loadWiki()
     }
 
     // 小作文
@@ -59,6 +65,27 @@ class IndexScreenVideoModel @Inject constructor(
     var cfError by mutableStateOf(false)
     var name by mutableStateOf("")
     var sublist by mutableStateOf(emptySet<SubUser>())
+
+    // WIKI
+    var wikiList by mutableStateOf(emptyList<WikiList.WikiListItem>())
+    var wikiLoading by mutableStateOf(false)
+    var wikiError by  mutableStateOf(false)
+
+    fun loadWiki() {
+        viewModelScope.launch {
+            wikiLoading = true
+            wikiError = false
+
+            var wikiList = wikiRepo.loadWiki()
+            wikiList?.let {
+                wikiList = it
+            } ?: kotlin.run {
+                wikiError = true
+            }
+
+            wikiLoading = false
+        }
+    }
 
     fun chaChengFen(){
         viewModelScope.launch {
