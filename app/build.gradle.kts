@@ -13,8 +13,8 @@ android {
         applicationId = "me.rerere.zhiwang"
         minSdk = 26
         targetSdk = 30
-        versionCode = 7
-        versionName = "1.6.0"
+        versionCode = 8
+        versionName = "1.7.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -48,7 +48,7 @@ android {
 dependencies {
     implementation ("androidx.core:core-ktx:1.6.0")
     implementation ("androidx.appcompat:appcompat:1.3.0")
-    implementation ("com.google.android.material:material:1.3.0")
+    implementation ("com.google.android.material:material:1.4.0")
 
     // Compose Lib
     implementation ("androidx.compose.ui:ui:$composeVersion")

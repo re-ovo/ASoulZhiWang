@@ -20,7 +20,7 @@ suspend fun checkUpdate(context: Context): Boolean {
             val okHttpClient = OkHttpClient()
             val request = Request.Builder()
                 .cacheControl(CacheControl.Builder().noCache().build())
-                .url("https://raw.githubusercontent.com/jiangdashao/ASoulZhiWang/master/app/build.gradle")
+                .url("https://raw.githubusercontent.com/jiangdashao/ASoulZhiWang/master/app/build.gradle.kts")
                 .get()
                 .build()
             val response = okHttpClient.newCall(request).await()
@@ -29,7 +29,7 @@ suspend fun checkUpdate(context: Context): Boolean {
             require(content.isNotEmpty())
             val latestVersion = content.let {
                 it.substring(
-                    it.indexOf("versionCode") + 12,
+                    it.indexOf("versionCode = ") + 15,
                     it.indexOf(char = '\n', startIndex = it.indexOf("versionCode"))
                 )
             }

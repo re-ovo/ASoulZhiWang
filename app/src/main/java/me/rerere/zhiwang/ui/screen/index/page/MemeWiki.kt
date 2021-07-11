@@ -1,5 +1,8 @@
 package me.rerere.zhiwang.ui.screen.index.page
 
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,6 +27,7 @@ import me.rerere.zhiwang.util.noRippleClickable
 
 @Composable
 fun WikiPage(navController: NavController, indexViewModel: IndexScreenVideoModel) {
+    val context = LocalContext.current
     when {
         indexViewModel.wikiLoading -> {
             Column {
@@ -56,13 +61,21 @@ fun WikiPage(navController: NavController, indexViewModel: IndexScreenVideoModel
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(16.dp),
+                                .padding(16.dp)
+                                .clickable {
+                                    val intent = Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse(("https://github.com/jiangdashao/asoulzhiwang").trim())
+                                    )
+                                    context.startActivity(intent)
+                                },
                         ) {
                             Column(Modifier.padding(16.dp)) {
                                 Text(text = "声明", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                 Spacer(modifier = Modifier.height(10.dp))
                                 Text(text = "本WIKI中许多梗介绍来自  深紫色的白")
                                 Text(text = "如果你想添加梗介绍，请前往github提交对 wiki.json 的PR")
+                                Text(text = "https://github.com/jiangdashao/asoulzhiwang")
                             }
                         }
                     }
