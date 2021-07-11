@@ -43,9 +43,6 @@ class IndexScreenVideoModel @Inject constructor(
         viewModelScope.launch {
             foundUpdate = checkUpdate(AppContext.appContext)
         }
-
-        // 加载wiki
-        loadWiki()
     }
 
     // 小作文
@@ -71,14 +68,19 @@ class IndexScreenVideoModel @Inject constructor(
     var wikiLoading by mutableStateOf(false)
     var wikiError by  mutableStateOf(false)
 
+    init {
+        loadWiki()
+    }
+
     fun loadWiki() {
         viewModelScope.launch {
             wikiLoading = true
             wikiError = false
 
-            var wikiList = wikiRepo.loadWiki()
-            wikiList?.let {
+            val result = wikiRepo.loadWiki()
+            result?.let {
                 wikiList = it
+                println("Loaded ${wikiList.size} wiki items")
             } ?: kotlin.run {
                 wikiError = true
             }

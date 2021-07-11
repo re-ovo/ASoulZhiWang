@@ -52,6 +52,20 @@ fun WikiPage(navController: NavController, indexViewModel: IndexScreenVideoModel
         else -> {
             SwipeRefresh(state = rememberSwipeRefreshState(isRefreshing = indexViewModel.wikiLoading), onRefresh = { indexViewModel.loadWiki() }) {
                 LazyColumn(Modifier.fillMaxSize()) {
+                    item {
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                        ) {
+                            Column(Modifier.padding(16.dp)) {
+                                Text(text = "声明", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Text(text = "本WIKI中许多梗介绍来自  深紫色的白")
+                                Text(text = "如果你想添加梗介绍，请前往github提交对 wiki.json 的PR")
+                            }
+                        }
+                    }
                     items(indexViewModel.wikiList){
                         WikiItem(it)
                     }
