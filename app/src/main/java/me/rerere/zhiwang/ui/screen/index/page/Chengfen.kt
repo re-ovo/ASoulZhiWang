@@ -11,9 +11,7 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,11 +20,9 @@ import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
 import me.rerere.zhiwang.ui.screen.index.IndexScreenVideoModel
 import me.rerere.zhiwang.util.analyse
-import me.rerere.zhiwang.util.charts.pie.PieChart
-import me.rerere.zhiwang.util.charts.pie.PieChartData
-import me.rerere.zhiwang.util.charts.pie.PieChartEntry
 import me.rerere.zhiwang.util.format.formatToString
 
+@Deprecated("Removed Page")
 @Composable
 fun ChengfenPage(indexScreenVideoModel: IndexScreenVideoModel) {
     Column(Modifier.padding(16.dp)) {
@@ -70,15 +66,6 @@ fun ChengfenPage(indexScreenVideoModel: IndexScreenVideoModel) {
     }
 }
 
-val PIE_COLORS = listOf(
-    Color.Red,
-    Color.Blue,
-    Color.Green,
-    Color.Yellow,
-    Color.Black,
-    Color.LightGray,
-    Color.Magenta
-)
 
 @Composable
 private fun ChengfengResult(indexScreenVideoModel: IndexScreenVideoModel) {
@@ -87,18 +74,8 @@ private fun ChengfengResult(indexScreenVideoModel: IndexScreenVideoModel) {
     Column {
         Text(text = "${indexScreenVideoModel.name} 的成分:", fontWeight = FontWeight.Bold, fontSize = 25.sp)
         Spacer(modifier = Modifier.height(10.dp))
-        PieChart(
-            PieChartData(
-                entries = data.map {
-                    PieChartEntry(
-                        value = it.value,
-                        label = buildAnnotatedString { append(it.key) }
-                    )
-                },
-                colors = PIE_COLORS
-            )
-        )
-        Spacer(modifier = Modifier.height(20.dp))
+
+        Spacer(modifier = Modifier.height(10.dp))
         OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
             val clipboardManager =
                 context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

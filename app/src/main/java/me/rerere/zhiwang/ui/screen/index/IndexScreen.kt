@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.FindInPage
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Public
@@ -15,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -24,14 +24,20 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
-import me.rerere.zhiwang.R
 import me.rerere.zhiwang.ui.public.FullScreenTopBar
 import me.rerere.zhiwang.ui.screen.index.page.AboutPage
-import me.rerere.zhiwang.ui.screen.index.page.ChengfenPage
 import me.rerere.zhiwang.ui.screen.index.page.Content
+import me.rerere.zhiwang.ui.screen.index.page.WikiPage
 import me.rerere.zhiwang.ui.screen.index.page.Zuowen
 import me.rerere.zhiwang.ui.theme.uiBackGroundColor
 import me.rerere.zhiwang.util.noRippleClickable
+
+val pages = mapOf(
+    0 to "小作文查重",
+    1 to "小作文库",
+    2 to "A-SOUL百科",
+    3 to "关于"
+)
 
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
@@ -46,16 +52,9 @@ fun IndexScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopBar(indexScreenVideoModel)
+            TopBar(indexScreenVideoModel, pages[pager.currentPage] ?: "")
         },
         bottomBar = {
-            val pages = listOf(
-                0 to "小作文查重",
-                1 to "小作文库",
-                2 to "查成分",
-                3 to "关于"
-            )
-
             BottomNavigation(modifier = Modifier.navigationBarsPadding(), backgroundColor = MaterialTheme.colors.uiBackGroundColor) {
                 BottomNavigationItem(
                     selected = pager.currentPage == 0,
@@ -63,7 +62,7 @@ fun IndexScreen(
                     icon = {
                         Icon(Icons.Default.FindInPage, null)
                     }, label = {
-                        Text(text = pages[0].second)
+                        Text(text = pages[0] ?: "")
                     })
                 BottomNavigationItem(
                     selected = pager.currentPage == 1,
@@ -71,15 +70,15 @@ fun IndexScreen(
                     icon = {
                         Icon(Icons.Default.Public, null)
                     }, label = {
-                        Text(text = pages[1].second)
+                        Text(text = pages[1] ?: "")
                     })
                 BottomNavigationItem(
                     selected = pager.currentPage == 2,
                     onClick = { coroutineScope.launch { pager.animateScrollToPage(2) } },
                     icon = {
-                        Icon(painterResource(R.drawable.chengfen), null)
+                        Icon(Icons.Default.Explore, null)
                     }, label = {
-                        Text(text = pages[2].second)
+                        Text(text = pages[2] ?: "")
                     })
                 BottomNavigationItem(
                     selected = pager.currentPage == 3,
@@ -87,7 +86,7 @@ fun IndexScreen(
                     icon = {
                         Icon(Icons.Default.Info, null)
                     }, label = {
-                        Text(text = pages[3].second)
+                        Text(text = pages[3] ?: "")
                     })
             }
         }
@@ -113,7 +112,7 @@ fun IndexScreen(
                     }
                     2 -> {
                         Box(modifier = Modifier.fillMaxSize()) {
-                            ChengfenPage(indexScreenVideoModel)
+                            WikiPage(navController)
                         }
                     }
                     3 -> {
@@ -129,11 +128,11 @@ fun IndexScreen(
 
 
 @Composable
-private fun TopBar(indexScreenVideoModel: IndexScreenVideoModel) {
+private fun TopBar(indexScreenVideoModel: IndexScreenVideoModel, title: String) {
     val context = LocalContext.current
     FullScreenTopBar(
         title = {
-            Text(text = "ASoul小作文助手")
+            Text(text = title)
         },
         actions = {
             if (indexScreenVideoModel.foundUpdate) {
