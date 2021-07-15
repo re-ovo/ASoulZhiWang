@@ -1,5 +1,6 @@
 package me.rerere.zhiwang.ui.screen.index.page
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.Navigator
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
@@ -26,6 +29,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import me.rerere.zhiwang.api.zuowen.ZuowenResponse
 import me.rerere.zhiwang.ui.screen.index.IndexScreenVideoModel
 import me.rerere.zhiwang.util.noRippleClickable
+import java.lang.StringBuilder
 
 @Composable
 fun Zuowen(indexScreenVideoModel: IndexScreenVideoModel, navController: NavController) {
@@ -98,7 +102,7 @@ private fun Article(article: ZuowenResponse.Article, navController: NavControlle
             .fillMaxWidth()
             .padding(16.dp)
             .clickable {
-                navController.navigate("zuowen?id=${article.id}&title=${article.title}&author=${article.author}")
+                navController.navigate("zuowen?id=${article.id}&title=${article.title}&author=${article.author}&tags=${article.tags.joinToString(",")}")
             },
         elevation = 4.dp
     ) {

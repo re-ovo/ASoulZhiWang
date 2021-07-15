@@ -48,6 +48,7 @@ fun ZuowenScreen(
     id: String,
     title: String,
     author: String,
+    tags: List<String>,
     zuowenViewModel: ZuowenViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -80,7 +81,7 @@ fun ZuowenScreen(
                 clipboardManager.setPrimaryClip(
                     ClipData.newPlainText(
                         null,
-                        zuowenViewModel.content.replaceASoulMemberName(MEMBERS[replaceSelection])
+                        zuowenViewModel.content.replaceASoulMemberName(tags[0], MEMBERS[replaceSelection])
                     )
                 )
                 Toast.makeText(context, "已复制到剪贴板", Toast.LENGTH_SHORT).show()
@@ -115,11 +116,14 @@ fun ZuowenScreen(
                     }) {
                         Icon(Icons.Default.ContentCopy, null)
                     }
-                    // 小作文主语替换复制
-                    IconButton(onClick = {
-                        replaceDialog.show()
-                    }) {
-                        Icon(Icons.Default.FindReplace, null)
+
+                    if (tags.size == 1) {
+                        // 小作文主语替换复制
+                        IconButton(onClick = {
+                            replaceDialog.show()
+                        }) {
+                            Icon(Icons.Default.FindReplace, null)
+                        }
                     }
                 }
             )

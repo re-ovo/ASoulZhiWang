@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
                             IndexScreen(navController)
                         }
 
-                        composable("zuowen?id={id}&title={title}&author={author}",
+                        composable("zuowen?id={id}&title={title}&author={author}&tags={tags}",
                             arguments = listOf(
                                 navArgument("id") {
                                     type = NavType.StringType
@@ -74,6 +74,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 navArgument("author") {
                                     type = NavType.StringType
+                                },
+                                navArgument("tags") {
+                                    type = NavType.StringType
                                 }
                             )) {
                             ZuowenScreen(
@@ -81,6 +84,9 @@ class MainActivity : ComponentActivity() {
                                 it.arguments?.getString("id")!!,
                                 it.arguments?.getString("title")!!,
                                 it.arguments?.getString("author")!!,
+                                it.arguments?.getString("tags")!!.run {
+                                    split(",")
+                                }
                             )
                         }
                     }

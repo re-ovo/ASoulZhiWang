@@ -8,10 +8,6 @@ val MEMBERS = listOf(
     "贝拉"
 )
 
-fun String.replaceASoulMemberName(toName: String): String {
-    var text = this
-    MEMBERS.forEach {
-        text = text.replace(it, toName)
-    }
-    return text
+fun String.replaceASoulMemberName(fromName: String, toName: String): String {
+    return replace(fromName, toName)
 }
