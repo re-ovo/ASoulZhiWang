@@ -1,5 +1,5 @@
 // JetPack Compose 版本
-const val composeVersion = "1.0.0-rc01"
+const val composeVersion = "1.0.0-rc02"
 
 // Hilt 版本
 const val hiltVersion = "2.37"
@@ -9,4 +9,4 @@ const val pagingVersion = "3.0.0"
 
 // accompanist 版本
 // https://github.com/google/accompanist
-const val accVersion = "0.13.0"
+const val accVersion = "0.14.0"

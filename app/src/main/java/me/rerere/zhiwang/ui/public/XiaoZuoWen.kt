@@ -19,8 +19,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.google.accompanist.coil.rememberCoilPainter
-import com.google.accompanist.imageloading.ImageLoadState
+import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
 import com.google.accompanist.placeholder.material.placeholder
 import me.rerere.zhiwang.ui.theme.PINK
 import me.rerere.zhiwang.util.format.formatToString
@@ -54,7 +54,7 @@ fun XiaoZuoWen(data: List<Any>) {
                     .padding(vertical = 4.dp)
             ) {
                 val (avatar, name, likes) = createRefs()
-                val painter = rememberCoilPainter(userInfo["avatar"] as? String)
+                val painter = rememberImagePainter(userInfo["avatar"] as? String)
                 Box(modifier = Modifier
                     .constrainAs(avatar){
                         start.linkTo(parent.start, 8.dp)
@@ -62,7 +62,7 @@ fun XiaoZuoWen(data: List<Any>) {
                     }
                     .size(40.dp)
                     .clip(CircleShape)
-                    .placeholder(painter.loadState is ImageLoadState.Loading)
+                    .placeholder(painter.state is ImagePainter.State.Loading)
                 ){
                     Image(painter = painter, contentDescription = null, modifier = Modifier.fillMaxSize())
                 }
