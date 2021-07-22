@@ -1,5 +1,6 @@
 package me.rerere.zhiwang.util.android
 
+import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 
@@ -14,4 +15,11 @@ fun Context.getClipboardContent(): String? {
         }
     }
     return null
+}
+
+fun Context.setClipboardText(text: String) {
+    val clipboardManager = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    clipboardManager.let {
+        it.setPrimaryClip(ClipData.newPlainText(null, text))
+    }
 }

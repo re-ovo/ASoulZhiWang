@@ -2,8 +2,9 @@ package me.rerere.zhiwang.ui.public
 
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +16,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,6 +25,7 @@ import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.google.accompanist.placeholder.material.placeholder
 import me.rerere.zhiwang.ui.theme.PINK
+import me.rerere.zhiwang.util.android.setClipboardText
 import me.rerere.zhiwang.util.format.formatToString
 import java.sql.Timestamp
 import java.text.DateFormat
@@ -31,21 +34,31 @@ import java.util.*
 @Composable
 fun XiaoZuoWen(data: List<Any>) {
     val context = LocalContext.current
+    val userInfo = data[1] as Map<*, *>
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable {
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse((data[2] as String).trim())
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onLongPress = {
+                        context.setClipboardText(userInfo["content"] as String)
+                        Toast
+                            .makeText(context, "已复制该作文到剪贴板", Toast.LENGTH_SHORT)
+                            .show()
+                    },
+                    onTap = {
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse((data[2] as String).trim())
+                        )
+                        context.startActivity(intent)
+                    }
                 )
-                context.startActivity(intent)
             },
         shape = RoundedCornerShape(4.dp),
         elevation = 4.dp
     ) {
-        val userInfo = data[1] as Map<*, *>
         Column(Modifier.padding(12.dp)) {
             // 作者信息
             ConstraintLayout(
@@ -56,15 +69,19 @@ fun XiaoZuoWen(data: List<Any>) {
                 val (avatar, name, likes) = createRefs()
                 val painter = rememberImagePainter(userInfo["avatar"] as? String)
                 Box(modifier = Modifier
-                    .constrainAs(avatar){
+                    .constrainAs(avatar) {
                         start.linkTo(parent.start, 8.dp)
                         top.linkTo(parent.top)
                     }
                     .size(40.dp)
                     .clip(CircleShape)
                     .placeholder(painter.state is ImagePainter.State.Loading)
-                ){
-                    Image(painter = painter, contentDescription = null, modifier = Modifier.fillMaxSize())
+                ) {
+                    Image(
+                        painter = painter,
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
                 // 名字
                 Text(
@@ -81,7 +98,11 @@ fun XiaoZuoWen(data: List<Any>) {
                     end.linkTo(parent.end, 8.dp)
                     centerVerticallyTo(avatar)
                 }, verticalAlignment = Alignment.CenterVertically) {
-                    Icon(modifier = Modifier.size(15.dp), imageVector = Icons.Default.ThumbUp, contentDescription = null)
+                    Icon(
+                        modifier = Modifier.size(15.dp),
+                        imageVector = Icons.Default.ThumbUp,
+                        contentDescription = null
+                    )
                     Spacer(modifier = Modifier.width(3.dp))
                     Text(text = (userInfo["like_num"] as Double).toInt().toString())
                 }
