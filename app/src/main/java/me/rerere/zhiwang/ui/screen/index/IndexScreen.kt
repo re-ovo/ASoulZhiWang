@@ -35,7 +35,7 @@ import me.rerere.zhiwang.util.noRippleClickable
 val pages = mapOf(
     0 to "小作文查重",
     1 to "小作文库",
-    2 to "A-SOUL百科",
+    2 to "百科",
     3 to "关于"
 )
 

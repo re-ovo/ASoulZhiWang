@@ -14,12 +14,11 @@ class WikiUtil @Inject constructor(
     suspend fun loadWiki() : List<WikiList.WikiListItem>? {
         return try {
             val request = Request.Builder()
-                .url("https://raw.githubusercontent.com/jiangdashao/ASoulZhiWang/master/wiki.json")
+                .url("https://cdn.jsdelivr.net/gh/jiangdashao/ASoulZhiWang/wiki.json")
                 .get()
                 .build()
             val response = okHttpClient.newCall(request).await()
             val body = response.body?.string()?.trim()
-            println(body)
             val wikiList = gson.fromJson(body, WikiList::class.java)
             wikiList
         }catch (e: Exception){

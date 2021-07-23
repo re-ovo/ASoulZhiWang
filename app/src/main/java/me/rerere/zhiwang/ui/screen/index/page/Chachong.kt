@@ -9,9 +9,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -58,6 +58,7 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
     ) {
         // 输入框
         Box(contentAlignment = Alignment.BottomEnd) {
@@ -135,7 +136,7 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                     // 小作文长度不够
                     error = true
                     Toast.makeText(context, "小作文至少需要10个字哦", Toast.LENGTH_SHORT).show()
-                } else if(System.currentTimeMillis() - indexScreenVideoModel.lastQuery <= 5000L) {
+                } else if (System.currentTimeMillis() - indexScreenVideoModel.lastQuery <= 5000L) {
                     Toast.makeText(context, "请等待 5 秒再查重哦！", Toast.LENGTH_SHORT).show()
                 } else {
                     // 开始查询
@@ -244,10 +245,9 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)
                     )
                     // 相似小作文列表
-                    LazyColumn(Modifier.fillMaxWidth()) {
-                        items(it.data.related) { zuowen ->
-                            XiaoZuoWen(zuowen)
-                        }
+
+                    it.data.related.forEach { zuowen ->
+                        XiaoZuoWen(zuowen)
                     }
                 }
                 4003 -> {
