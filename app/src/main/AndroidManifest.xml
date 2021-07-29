@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_rounded"
         android:allowBackup="true"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.ZhiWang">
         <activity
             android:name=".MainActivity"

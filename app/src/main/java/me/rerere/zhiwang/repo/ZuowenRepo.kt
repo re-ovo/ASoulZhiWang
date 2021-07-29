@@ -18,18 +18,15 @@ class ZuowenRepo(
         autoRetry {
             zhiWangService.query(content)
         }?.apply {
-            // 重新排序
-            this.data.related = this.data.related.sortedBy {
-                ((it[1] as Map<*,*>)["ctime"] as Double).toLong()
-            }
+            println(this)
 
             // 获取用户信息
             this.data.related.forEach {
                 try {
-                    val userInfo = it[1] as MutableMap<Any, Any>
-                    val bilibiliUser = bilibiliUtil.getUserInfo((userInfo["mid"] as Double).toInt())
+                    val mid = it.reply.mid
+                    val bilibiliUser = bilibiliUtil.getUserInfo(mid)
                     bilibiliUser?.let { user ->
-                        userInfo["avatar"] = user.data.face.replace("http:", "https:")
+                        it.reply.avatar = user.data.face.replace("http:", "https:")
                         println("头像: ${user.data.face}")
                     }
                 }catch (e: Exception){

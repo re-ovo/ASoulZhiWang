@@ -31,12 +31,11 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
 import me.rerere.zhiwang.ui.public.XiaoZuoWen
+import me.rerere.zhiwang.ui.public.getDateTime
 import me.rerere.zhiwang.ui.screen.index.IndexScreenVideoModel
 import me.rerere.zhiwang.util.android.getClipboardContent
-import me.rerere.zhiwang.util.format.formatToString
+import me.rerere.zhiwang.util.format.format
 import me.rerere.zhiwang.util.noRippleClickable
-import java.text.DateFormat
-import java.util.*
 
 @ExperimentalAnimationApi
 @Composable
@@ -194,7 +193,7 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = "总文字复制比: ${(it.data.rate * 100).formatToString()}%",
+                                    text = "总文字复制比: ${(it.data.rate * 100).format()}%",
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 23.sp,
                                     modifier = Modifier.padding(4.dp),
@@ -215,15 +214,14 @@ fun Content(indexScreenVideoModel: IndexScreenVideoModel, scaffoldState: Scaffol
                                 clipboardManager.setPrimaryClip(
                                     ClipData.newPlainText(
                                         null, """
-                                    查重结果:
-                                    * 查重时间: ${
-                                            DateFormat.getDateInstance(0, Locale.CHINA).format(
-                                                Date()
-                                            )
-                                        }
-                                    * 文字复制率: ${(it.data.rate * 100).formatToString()}%
-                                    * 首次出现于: ${if (it.data.related.isNotEmpty()) it.data.related[0][2] else "无"}
-                                    数据来源于枝网，仅供参考
+                                            枝网文本复制检测报告(APP版)
+                                            查重时间: ${getDateTime(System.currentTimeMillis())}
+                                            总文字复制比: ${(it.data.rate * 100).format()}%
+                                            相似小作文: ${it.data.related[0].replyUrl}
+                                            作者: ${it.data.related[0].reply.mName}
+                                            发表时间: ${getDateTime(it.data.related[0].reply.ctime.toLong() * 1000L)}
+
+                                            查重结果仅作参考，请注意辨别是否为原创
                                 """.trimIndent()
                                     )
                                 )

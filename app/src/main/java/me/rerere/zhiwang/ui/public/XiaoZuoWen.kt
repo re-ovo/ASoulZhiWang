@@ -24,17 +24,15 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.google.accompanist.placeholder.material.placeholder
+import me.rerere.zhiwang.api.zhiwang.Response
 import me.rerere.zhiwang.ui.theme.PINK
 import me.rerere.zhiwang.util.android.setClipboardText
-import me.rerere.zhiwang.util.format.formatToString
-import java.sql.Timestamp
-import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
-fun XiaoZuoWen(data: List<Any>) {
+fun XiaoZuoWen(data: Response.Data.Related) {
     val context = LocalContext.current
-    val userInfo = data[1] as Map<*, *>
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -42,7 +40,7 @@ fun XiaoZuoWen(data: List<Any>) {
             .pointerInput(Unit) {
                 detectTapGestures(
                     onLongPress = {
-                        context.setClipboardText(userInfo["content"] as String)
+                        context.setClipboardText(data.reply.content)
                         Toast
                             .makeText(context, "已复制该作文到剪贴板", Toast.LENGTH_SHORT)
                             .show()
@@ -50,7 +48,7 @@ fun XiaoZuoWen(data: List<Any>) {
                     onTap = {
                         val intent = Intent(
                             Intent.ACTION_VIEW,
-                            Uri.parse((data[2] as String).trim())
+                            Uri.parse(data.replyUrl.trim())
                         )
                         context.startActivity(intent)
                     }
@@ -67,7 +65,7 @@ fun XiaoZuoWen(data: List<Any>) {
                     .padding(vertical = 4.dp)
             ) {
                 val (avatar, name, likes) = createRefs()
-                val painter = rememberImagePainter(userInfo["avatar"] as? String)
+                val painter = rememberImagePainter(data.reply.avatar as? String)
                 Box(modifier = Modifier
                     .constrainAs(avatar) {
                         start.linkTo(parent.start, 8.dp)
@@ -89,7 +87,7 @@ fun XiaoZuoWen(data: List<Any>) {
                         start.linkTo(avatar.end, 8.dp)
                         centerVerticallyTo(avatar)
                     },
-                    text = userInfo["m_name"] as String,
+                    text = data.reply.mName,
                     fontWeight = FontWeight.Bold,
                     color = PINK
                 )
@@ -104,12 +102,12 @@ fun XiaoZuoWen(data: List<Any>) {
                         contentDescription = null
                     )
                     Spacer(modifier = Modifier.width(3.dp))
-                    Text(text = (userInfo["like_num"] as Double).toInt().toString())
+                    Text(text = (data.reply.likeNum.toString()))
                 }
             }
             // 作文内容
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-                Text(text = userInfo["content"] as String)
+                Text(text = data.reply.content)
             }
             // 作文信息
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.disabled) {
@@ -117,19 +115,19 @@ fun XiaoZuoWen(data: List<Any>) {
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "重复度: ${((data[0] as Double) * 100).formatToString()}%")
+                    Text(text = "重复度: ${(data.rate * 100f).toInt().coerceAtMost(100)}%")
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "日期: ${getDateTime((userInfo["ctime"] as Double).toLong())}")
+                    Text(text = "日期: ${getDateTime((data.reply.ctime.toLong() * 1000L))}")
                 }
             }
         }
     }
 }
 
-private fun getDateTime(time: Long): String? {
+private val timeFormat = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.CHINA)
+fun getDateTime(time: Long): String? {
     return try {
-        val timestamp = Timestamp(time)
-        return DateFormat.getDateInstance(2, Locale.CHINA).format(Date(timestamp.time * 1000L))
+        return timeFormat.format(Date(time))
     } catch (e: Exception) {
         e.toString()
     }
