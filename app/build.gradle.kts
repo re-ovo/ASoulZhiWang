@@ -100,8 +100,8 @@ dependencies {
     implementation ("org.jsoup:jsoup:1.13.1")
 
     // 约束布局
-    implementation ("androidx.constraintlayout:constraintlayout:2.0.4")
-    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.0-beta01")
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.0")
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02")
 
 
     testImplementation ("junit:junit:4.+")
