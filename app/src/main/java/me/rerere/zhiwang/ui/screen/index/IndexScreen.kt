@@ -47,7 +47,7 @@ fun IndexScreen(
     indexScreenVideoModel: IndexScreenVideoModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
-    val pager = rememberPagerState(pageCount = 4, initialPage = 0)
+    val pager = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
         scaffoldState = scaffoldState,
@@ -92,7 +92,7 @@ fun IndexScreen(
         }
     ) {
         Box(modifier = Modifier.padding(it)) {
-            HorizontalPager(modifier = Modifier.fillMaxSize(), state = pager) {
+            HorizontalPager(modifier = Modifier.fillMaxSize(), state = pager, count = 4) {
                 when (it) {
                     0 -> {
                         Box(modifier = Modifier.fillMaxSize()) {

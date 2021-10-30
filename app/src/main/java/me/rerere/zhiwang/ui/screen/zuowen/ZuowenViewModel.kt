@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.rerere.zhiwang.repo.ZuowenRepo
 import me.rerere.zhiwang.util.format.HtmlFormatUtil
@@ -37,9 +36,6 @@ class ZuowenViewModel @Inject constructor(
         viewModelScope.launch {
             loading = true
             error = false
-
-            delay(500) // 等一下动画效果
-
             val content = zuowenRepo.getZuowenContent(id)
             content?.let {
                 // 利用JSOUP移除HTML元素

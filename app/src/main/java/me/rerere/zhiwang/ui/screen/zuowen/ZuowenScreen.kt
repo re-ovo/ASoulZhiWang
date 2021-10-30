@@ -33,8 +33,8 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
 import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.buttons
 import com.vanpra.composematerialdialogs.listItemsSingleChoice
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import com.vanpra.composematerialdialogs.title
 import me.rerere.zhiwang.ui.public.FullScreenTopBar
 import me.rerere.zhiwang.util.MEMBERS
@@ -56,24 +56,13 @@ fun ZuowenScreen(
         Log.i(TAG, "ZuowenScreen: Load = $id, $title, $author")
         zuowenViewModel.load(id, title, author)
     }
-    val replaceDialog = remember {
-        MaterialDialog()
-    }
+    val replaceDialog = rememberMaterialDialogState()
     var replaceSelection by remember {
         mutableStateOf(0)
     }
-    replaceDialog.build {
-        title("快速替换小作文的主语并复制到剪贴板")
-        listItemsSingleChoice(
-            list = MEMBERS,
-            initialSelection = replaceSelection,
-            onChoiceChange = {
-                replaceSelection = it
-                println("select: $it")
-            },
-            waitForPositiveButton = false
-        )
-        buttons {
+    MaterialDialog(
+        dialogState = replaceDialog,
+        buttons = {
             button("复制") {
                 replaceDialog.hide()
                 val clipboardManager =
@@ -87,6 +76,16 @@ fun ZuowenScreen(
                 Toast.makeText(context, "已复制到剪贴板", Toast.LENGTH_SHORT).show()
             }
         }
+    ) {
+        title("快速替换小作文的主语并复制到剪贴板")
+        listItemsSingleChoice(
+            list = MEMBERS,
+            initialSelection = replaceSelection,
+            onChoiceChange = {
+                replaceSelection = it
+            },
+            waitForPositiveButton = false
+        )
     }
 
     Scaffold(

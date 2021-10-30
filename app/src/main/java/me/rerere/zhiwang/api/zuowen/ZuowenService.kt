@@ -5,7 +5,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ZuowenService {
-    @GET("/v/articles/q")
+    @GET("/v/articles")
     suspend fun getZuowenList(@Query("pageNum") page: Int, @Query("pageSize") pageSize: Int) : ZuowenResponse
 
     @GET("/v/articles/{id}/html")

@@ -6,15 +6,15 @@ plugins {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = 31
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
         applicationId = "me.rerere.zhiwang"
         minSdk = 26
-        targetSdk = 30
-        versionCode = 11
-        versionName = "1.7.3"
+        targetSdk = 31
+        versionCode = 12
+        versionName = "2.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -44,7 +44,7 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.core:core-ktx:1.6.0")
+    implementation ("androidx.core:core-ktx:1.7.0")
     implementation ("androidx.appcompat:appcompat:1.3.1")
     implementation ("com.google.android.material:material:1.4.0")
 
@@ -52,15 +52,15 @@ dependencies {
     implementation ("androidx.compose.ui:ui:$composeVersion")
     implementation ("androidx.compose.material:material:$composeVersion")
     implementation ("androidx.compose.ui:ui-tooling:$composeVersion")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation ("androidx.activity:activity-compose:1.3.0")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
+    implementation ("androidx.activity:activity-compose:1.4.0")
     implementation ("androidx.compose.runtime:runtime-livedata:$composeVersion")
 
     // Dialog
-    implementation ("io.github.vanpra.compose-material-dialogs:core:0.4.3")
+    implementation ("io.github.vanpra.compose-material-dialogs:core:0.6.1")
 
     // Coil
-    implementation("io.coil-kt:coil-compose:1.3.0")
+    implementation("io.coil-kt:coil-compose:1.3.2")
 
     // Hilt
     implementation ("com.google.dagger:hilt-android:$hiltVersion")
@@ -68,14 +68,14 @@ dependencies {
     implementation ("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
 
     // Paging3
-    implementation ("androidx.paging:paging-runtime-ktx:$pagingVersion")
-    implementation ("androidx.paging:paging-compose:1.0.0-alpha12")
+    implementation ("androidx.paging:paging-runtime-ktx:3.1.0-beta01")
+    implementation ("androidx.paging:paging-compose:1.0.0-alpha14")
 
     // 图标扩展
     implementation ("androidx.compose.material:material-icons-extended:$composeVersion")
 
     // Navigation for JetpackCompose
-    implementation ("androidx.navigation:navigation-compose:2.4.0-alpha04")
+    implementation ("androidx.navigation:navigation-compose:2.4.0-beta01")
 
     // accompanist
     // Pager
@@ -100,8 +100,8 @@ dependencies {
     implementation ("org.jsoup:jsoup:1.13.1")
 
     // 约束布局
-    implementation ("androidx.constraintlayout:constraintlayout:2.0.4")
-    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.0-beta01")
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.1")
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.0-rc01")
 
 
     testImplementation ("junit:junit:4.+")
