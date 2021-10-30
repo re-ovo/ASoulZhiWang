@@ -28,7 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.google.accompanist.insets.ui.TopAppBar
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
@@ -36,7 +39,6 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.listItemsSingleChoice
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import com.vanpra.composematerialdialogs.title
-import me.rerere.zhiwang.ui.public.FullScreenTopBar
 import me.rerere.zhiwang.util.MEMBERS
 import me.rerere.zhiwang.util.replaceASoulMemberName
 
@@ -90,7 +92,8 @@ fun ZuowenScreen(
 
     Scaffold(
         topBar = {
-            FullScreenTopBar(
+            TopAppBar(
+                contentPadding = rememberInsetsPaddingValues(insets = LocalWindowInsets.current.statusBars, applyBottom = false),
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, null)

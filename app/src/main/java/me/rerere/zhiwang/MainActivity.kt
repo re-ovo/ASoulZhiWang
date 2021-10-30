@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalPagerApi::class, androidx.compose.animation.ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         // 全屏
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -45,7 +46,10 @@ class MainActivity : ComponentActivity() {
 
                     // 设置状态栏和导航栏颜色
                     SideEffect {
-                        systemUiController.setNavigationBarColor(primaryColor)
+                        systemUiController.setNavigationBarColor(
+                            Color.Transparent,
+                            darkIcons = darkIcons
+                        )
                         systemUiController.setStatusBarColor(
                             Color.Transparent,
                             darkIcons = darkIcons

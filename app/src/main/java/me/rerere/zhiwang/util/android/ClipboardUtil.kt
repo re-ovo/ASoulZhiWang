@@ -19,7 +19,5 @@ fun Context.getClipboardContent(): String? {
 
 fun Context.setClipboardText(text: String) {
     val clipboardManager = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    clipboardManager.let {
-        it.setPrimaryClip(ClipData.newPlainText(null, text))
-    }
+    clipboardManager.setPrimaryClip(ClipData.newPlainText(null, text))
 }

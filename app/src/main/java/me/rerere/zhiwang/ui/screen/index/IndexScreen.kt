@@ -19,12 +19,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
-import me.rerere.zhiwang.ui.public.FullScreenTopBar
 import me.rerere.zhiwang.ui.screen.index.page.AboutPage
 import me.rerere.zhiwang.ui.screen.index.page.Content
 import me.rerere.zhiwang.ui.screen.index.page.WikiPage
@@ -133,7 +134,7 @@ fun IndexScreen(
 @Composable
 private fun TopBar(indexScreenVideoModel: IndexScreenVideoModel, title: String) {
     val context = LocalContext.current
-    FullScreenTopBar(
+    com.google.accompanist.insets.ui.TopAppBar(
         title = {
             Text(text = title)
         },
@@ -149,6 +150,7 @@ private fun TopBar(indexScreenVideoModel: IndexScreenVideoModel, title: String) 
                     }
                     .padding(horizontal = 16.dp))
             }
-        }
+        },
+        contentPadding = rememberInsetsPaddingValues(insets = LocalWindowInsets.current.statusBars, applyBottom = false)
     )
 }
