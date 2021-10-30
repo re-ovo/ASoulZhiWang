@@ -57,6 +57,9 @@ dependencies {
     implementation ("androidx.activity:activity-compose:1.4.0")
     implementation ("androidx.compose.runtime:runtime-livedata:$composeVersion")
 
+    // splash
+    implementation("androidx.core:core-splashscreen:1.0.0-alpha02")
+
     // Dialog
     implementation ("io.github.vanpra.compose-material-dialogs:core:0.6.1")
 

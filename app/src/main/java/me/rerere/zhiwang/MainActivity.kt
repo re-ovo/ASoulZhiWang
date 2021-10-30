@@ -11,6 +11,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -24,7 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.rerere.zhiwang.ui.screen.index.IndexScreen
 import me.rerere.zhiwang.ui.screen.zuowen.ZuowenScreen
 import me.rerere.zhiwang.ui.theme.ZhiWangTheme
-import me.rerere.zhiwang.ui.theme.uiBackGroundColor
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -35,13 +35,14 @@ class MainActivity : ComponentActivity() {
         // 全屏
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        installSplashScreen()
+
         setContent {
             ZhiWangTheme {
                 ProvideWindowInsets {
                     val navController = rememberNavController()
 
                     val systemUiController = rememberSystemUiController()
-                    val primaryColor = MaterialTheme.colors.uiBackGroundColor
                     val darkIcons = MaterialTheme.colors.isLight
 
                     // 设置状态栏和导航栏颜色

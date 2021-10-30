@@ -19,6 +19,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.ZhiWang.Start" parent="Theme.SplashScreen" >
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_rounded</item>
+
+        <item name="postSplashScreenTheme">@style/Theme.ZhiWang.NoActionBar</item>
+    </style>
+
     <style name="Theme.ZhiWang.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.ZhiWang.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
